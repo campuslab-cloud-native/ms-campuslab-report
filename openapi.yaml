@@ -1,0 +1,110 @@
+openapi: 3.0.3
+
+info:
+  title: CampusLab Report API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8084
+
+tags:
+  - name: Report
+
+paths:
+
+  /api/report/kpis:
+
+    get:
+      tags:
+        - Report
+      summary: Obtener KPIs
+      operationId: getKpis
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: range
+          in: query
+          required: false
+          schema:
+            type: string
+            default: last24h
+
+      responses:
+        '200':
+          description: KPIs obtenidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KpiResponse'
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+
+  /api/report/top-resources:
+
+    get:
+      tags:
+        - Report
+      summary: Obtener recursos más utilizados
+      operationId: getTopResources
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: range
+          in: query
+          required: false
+          schema:
+            type: string
+            default: last7d
+
+      responses:
+        '200':
+          description: Recursos más utilizados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TopResourceResponse'
+        '401':
+          description: No autenticado
+        '403':
+          description: No autorizado
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    KpiResponse:
+      type: object
+      properties:
+        totalBookings:
+          type: integer
+        bookingsPerHour:
+          type: number
+          format: double
+        averageCycleTimeMinutes:
+          type: number
+          format: double
+        occupiedResources:
+          type: integer
+
+    TopResourceResponse:
+      type: object
+      properties:
+        resourceId:
+          type: integer
+          format: int64
+        resourceName:
+          type: string
+        totalBookings:
+          type: integer
