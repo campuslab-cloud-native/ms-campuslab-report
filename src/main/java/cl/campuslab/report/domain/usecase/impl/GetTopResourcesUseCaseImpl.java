@@ -3,7 +3,7 @@ package cl.campuslab.report.domain.usecase.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import cl.campuslab.report.data.exchange.bookings.BookingResponse;
-import report.data.exchange.bookings.BookingsClient;
+import cl.campuslab.report.data.exchange.bookings.BookingsClient;
 import cl.campuslab.report.data.exchange.catalog.CatalogClient;
 import cl.campuslab.report.data.exchange.catalog.CatalogResourceResponse;
 import cl.campuslab.report.domain.service.ReportRangeService;

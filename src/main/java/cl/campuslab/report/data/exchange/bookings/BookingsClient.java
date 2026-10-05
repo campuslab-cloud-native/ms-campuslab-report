@@ -1,6 +1,5 @@
-package report.data.exchange.bookings;
+package cl.campuslab.report.data.exchange.bookings;
 
-import cl.campuslab.report.data.exchange.bookings.BookingResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
