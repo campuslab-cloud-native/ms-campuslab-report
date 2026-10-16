@@ -58,7 +58,8 @@ public class GetKpisUseCaseImpl implements GetKpisUseCase {
         int occupiedResources = (int) bookings.stream()
                 .filter(booking ->
                         !"CANCELLED".equals(booking.getStatus()) &&
-                                !"RETURNED".equals(booking.getStatus())
+                                !"RETURNED".equals(booking.getStatus()) &&
+                                !"TERMINATED".equals(booking.getStatus())
                 )
                 .map(BookingResponse::getResourceId)
                 .distinct()
