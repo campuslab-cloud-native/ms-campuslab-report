@@ -2,21 +2,34 @@ package cl.campuslab.report.domain.service;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class ReportRangeService {
 
-    public LocalDate getFromDate(String range) {
-
-        LocalDate today = LocalDate.now();
-
+    public LocalDateTime getFromDateTime(
+            String range,
+            LocalDateTime to
+    ) {
         return switch (range) {
-            case "last7d" -> today.minusDays(7);
-            case "last30d" -> today.minusDays(30);
-            case "last24h" -> today.minusDays(1);
-            default -> today.minusDays(1);
+            case "last7d" -> to.minusDays(7);
+            case "last30d" -> to.minusDays(30);
+            case "last24h" -> to.minusHours(24);
+            default -> to.minusHours(24);
         };
+    }
+
+    public boolean includesCreatedAt(
+            LocalDateTime createdAt,
+            String range,
+            LocalDateTime to
+    ) {
+        if (createdAt == null) {
+            return false;
+        }
+
+        LocalDateTime from = getFromDateTime(range, to);
+        return !createdAt.isBefore(from) && !createdAt.isAfter(to);
     }
 
     public double getHours(String range) {

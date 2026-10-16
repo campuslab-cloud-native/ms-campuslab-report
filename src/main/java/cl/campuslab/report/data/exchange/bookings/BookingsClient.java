@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -17,21 +15,9 @@ public class BookingsClient {
     @Value("${services.bookings.url}")
     private String bookingsServiceUrl;
 
-    public List<BookingResponse> getBookings(
-            LocalDate from,
-            LocalDate to
-    ) {
-
-        var uri = UriComponentsBuilder
-                .fromUriString(bookingsServiceUrl)
-                .path("/api/bookings")
-                .queryParam("from", from)
-                .queryParam("to", to)
-                .build()
-                .toUri();
-
+    public List<BookingResponse> getBookings() {
         return restClient.get()
-                .uri(uri)
+                .uri(bookingsServiceUrl + "/api/bookings")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }

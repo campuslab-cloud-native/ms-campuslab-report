@@ -9,7 +9,7 @@ import cl.campuslab.report.domain.usecase.GetKpisUseCase;
 import cl.campuslab.report.presentation.response.KpiResponse;
 
 import java.time.Duration;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,11 +22,19 @@ public class GetKpisUseCaseImpl implements GetKpisUseCase {
     @Override
     public KpiResponse execute(String range) {
 
-        LocalDate from = rangeService.getFromDate(range);
-        LocalDate to = LocalDate.now();
+        LocalDateTime to = LocalDateTime.now();
 
         List<BookingResponse> bookings =
-                bookingsClient.getBookings(from, to);
+                bookingsClient.getBookings()
+                        .stream()
+                        .filter(booking ->
+                                rangeService.includesCreatedAt(
+                                        booking.getCreatedAt(),
+                                        range,
+                                        to
+                                )
+                        )
+                        .toList();
 
         int totalBookings = bookings.size();
 

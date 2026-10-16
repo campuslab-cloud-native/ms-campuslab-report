@@ -10,7 +10,7 @@ import cl.campuslab.report.domain.service.ReportRangeService;
 import cl.campuslab.report.domain.usecase.GetTopResourcesUseCase;
 import cl.campuslab.report.presentation.response.TopResourceResponse;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,11 +28,19 @@ public class GetTopResourcesUseCaseImpl
     @Override
     public List<TopResourceResponse> execute(String range) {
 
-        LocalDate from = rangeService.getFromDate(range);
-        LocalDate to = LocalDate.now();
+        LocalDateTime to = LocalDateTime.now();
 
         List<BookingResponse> bookings =
-                bookingsClient.getBookings(from, to);
+                bookingsClient.getBookings()
+                        .stream()
+                        .filter(booking ->
+                                rangeService.includesCreatedAt(
+                                        booking.getCreatedAt(),
+                                        range,
+                                        to
+                                )
+                        )
+                        .toList();
 
         List<CatalogResourceResponse> resources =
                 catalogClient.getResources();
