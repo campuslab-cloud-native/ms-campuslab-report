@@ -17,7 +17,7 @@ public class BookingsClient {
 
     public List<BookingResponse> getBookings() {
         return restClient.get()
-                .uri(bookingsServiceUrl + "/api/bookings")
+                .uri(bookingsServiceUrl + "/api/v1/bookings")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
     }

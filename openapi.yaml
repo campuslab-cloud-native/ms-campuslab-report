@@ -12,7 +12,7 @@ tags:
 
 paths:
 
-  /api/report/kpis:
+  /api/v1/report/kpis:
 
     get:
       tags:
@@ -42,7 +42,7 @@ paths:
         '403':
           description: No autorizado
 
-  /api/report/top-resources:
+  /api/v1/report/top-resources:
 
     get:
       tags:

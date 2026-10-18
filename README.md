@@ -20,8 +20,8 @@ Microservicio de reportería y KPIs de CampusLab.
 ## Endpoints
 
 ```http
-GET /api/report/kpis?range=last24h
-GET /api/report/top-resources?range=last7d
+GET /api/v1/report/kpis?range=last24h
+GET /api/v1/report/top-resources?range=last7d
 ```
 
 ## Acceso

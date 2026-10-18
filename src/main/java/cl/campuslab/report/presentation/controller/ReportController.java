@@ -11,7 +11,7 @@ import cl.campuslab.report.presentation.response.TopResourceResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/v1/report")
 @RequiredArgsConstructor
 public class ReportController {
 

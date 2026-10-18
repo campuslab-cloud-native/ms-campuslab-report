@@ -20,7 +20,7 @@ public class CatalogClient {
 
         var uri = UriComponentsBuilder
                 .fromUriString(catalogServiceUrl)
-                .path("/api/catalog/resources")
+                .path("/api/v1/catalog/resources")
                 .build()
                 .toUri();
 
