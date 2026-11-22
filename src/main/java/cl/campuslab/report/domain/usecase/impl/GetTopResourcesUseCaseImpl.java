@@ -10,6 +10,7 @@ import cl.campuslab.report.domain.service.ReportRangeService;
 import cl.campuslab.report.domain.usecase.GetTopResourcesUseCase;
 import cl.campuslab.report.presentation.response.TopResourceResponse;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,12 @@ public class GetTopResourcesUseCaseImpl
     private final BookingsClient bookingsClient;
     private final CatalogClient catalogClient;
     private final ReportRangeService rangeService;
+    private final Clock reportClock;
 
     @Override
     public List<TopResourceResponse> execute(String range) {
 
-        LocalDateTime to = LocalDateTime.now();
+        LocalDateTime to = LocalDateTime.now(reportClock);
 
         List<BookingResponse> bookings =
                 bookingsClient.getBookings()

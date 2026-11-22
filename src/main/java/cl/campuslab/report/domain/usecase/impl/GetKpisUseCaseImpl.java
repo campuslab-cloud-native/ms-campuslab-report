@@ -8,6 +8,7 @@ import cl.campuslab.report.domain.service.ReportRangeService;
 import cl.campuslab.report.domain.usecase.GetKpisUseCase;
 import cl.campuslab.report.presentation.response.KpiResponse;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,11 +19,12 @@ public class GetKpisUseCaseImpl implements GetKpisUseCase {
 
     private final BookingsClient bookingsClient;
     private final ReportRangeService rangeService;
+    private final Clock reportClock;
 
     @Override
     public KpiResponse execute(String range) {
 
-        LocalDateTime to = LocalDateTime.now();
+        LocalDateTime to = LocalDateTime.now(reportClock);
 
         List<BookingResponse> bookings =
                 bookingsClient.getBookings()
