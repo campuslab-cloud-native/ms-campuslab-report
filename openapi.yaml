@@ -39,6 +39,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/KpiResponse'
 
+  /api/v1/report/events/summary:
+    get:
+      tags:
+        - Report
+      summary: Resumen de eventos recibidos desde audit.timeline
+      operationId: getEventSummary
+      description: >-
+        Conteo en memoria de los eventos consumidos con el grupo campuslab-report.
+        Se reinicia al reiniciar el servicio.
+      responses:
+        '200':
+          description: Resumen de eventos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSummaryResponse'
+
   /api/v1/report/top-resources:
     get:
       tags:
@@ -80,6 +97,22 @@ components:
           format: double
         occupiedResources:
           type: integer
+
+    EventSummaryResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        byType:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+        lastEventAt:
+          type: string
+          format: date-time
+          nullable: true
 
     TopResourceResponse:
       type: object

@@ -1,8 +1,13 @@
 # ms-campuslab-report
 
-Microservicio Spring Boot de reportería. No persiste agregados ni consume
-Kafka: obtiene reservas mediante Bookings y nombres de recursos mediante
-Catalog al atender las consultas.
+Microservicio Spring Boot de reportería. No persiste agregados: obtiene reservas
+mediante Bookings y nombres de recursos mediante Catalog al atender las consultas.
+
+Además consume el tópico `audit.timeline` con el consumer group `campuslab-report`
+y mantiene en memoria un conteo de eventos por tipo (`GET /api/v1/report/events/summary`).
+Este conteo se reinicia al reiniciar el servicio y no afecta a los KPIs. Se puede
+desactivar el consumidor con `REPORT_KAFKA_ENABLED=false`; el servicio arranca igual
+aunque Kafka no esté disponible.
 
 ## Endpoints internos
 
@@ -10,6 +15,7 @@ Catalog al atender las consultas.
 |---|---|---|
 | `GET` | `/api/v1/report/kpis` | `last24h` |
 | `GET` | `/api/v1/report/top-resources` | `last7d` |
+| `GET` | `/api/v1/report/events/summary` | — |
 
 `range` acepta `last24h`, `last7d` y `last30d`. Un valor no reconocido usa la
 ventana de 24 horas. Las ventanas se calculan con `America/Santiago`.
