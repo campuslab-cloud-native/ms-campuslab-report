@@ -1,8 +1,12 @@
 openapi: 3.0.3
 
 info:
-  title: CampusLab Report API
+  title: CampusLab Report Internal API
   version: 1.0.0
+  description: >-
+    API interna de reportería. Report consulta Bookings y Catalog por HTTP y no
+    implementa autenticación propia. Las rutas públicas y roles se aplican en
+    ms-campuslab-bff.
 
 servers:
   - url: http://localhost:8084
@@ -11,25 +15,22 @@ tags:
   - name: Report
 
 paths:
-
   /api/v1/report/kpis:
-
     get:
       tags:
         - Report
       summary: Obtener KPIs
       operationId: getKpis
-      security:
-        - bearerAuth: []
-
       parameters:
         - name: range
           in: query
           required: false
+          description: >-
+            last24h, last7d o last30d. Un valor no reconocido usa last24h.
+            La ventana se calcula en America/Santiago.
           schema:
             type: string
             default: last24h
-
       responses:
         '200':
           description: KPIs obtenidos
@@ -37,29 +38,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/KpiResponse'
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
 
   /api/v1/report/top-resources:
-
     get:
       tags:
         - Report
       summary: Obtener recursos más utilizados
       operationId: getTopResources
-      security:
-        - bearerAuth: []
-
       parameters:
         - name: range
           in: query
           required: false
+          description: >-
+            last24h, last7d o last30d. Un valor no reconocido usa last24h.
+            La ventana se calcula en America/Santiago.
           schema:
             type: string
             default: last7d
-
       responses:
         '200':
           description: Recursos más utilizados
@@ -69,21 +64,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TopResourceResponse'
-        '401':
-          description: No autenticado
-        '403':
-          description: No autorizado
 
 components:
-
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
   schemas:
-
     KpiResponse:
       type: object
       properties:
